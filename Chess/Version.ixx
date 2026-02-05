@@ -8,14 +8,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import std;
-import ChessPos;
-using namespace Chess;
+export module Version;
+import Scriptforge.Version;
 
-int main() {
-	Pos::ChessX x1{ 1 };
-	std::cout << x1.toChar();
-	Pos::ChessY y1{ 1 };
-	std::cout << y1.toChar();
-	return 0;
+namespace Version{
+	Scriptforge::Version::VersionInfo versionInfo{
+		"Chess",
+		"0.0.1",
+		"Scriptforge",
+		"Apache License, Version 2.0",
+		2026
+	};
 }

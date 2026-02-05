@@ -151,17 +151,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ChessPiece.ixx">
-      <FileType>Document</FileType>
-    </ClCompile>
+    <ClCompile Include="ChessPos.ixx" />
+    <ClCompile Include="ChessType.ixx" />
+    <ClCompile Include="clear.ixx" />
     <ClCompile Include="Error.ixx" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Version.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\README-CN.md" />
     <None Include="..\README.md" />
+    <None Include="..\CHANGELOG-CN.md" />
+    <None Include="..\CHANGELOG.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

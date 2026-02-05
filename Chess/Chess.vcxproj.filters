@@ -18,10 +18,19 @@
     <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ChessPiece.ixx">
+    <ClCompile Include="Error.ixx">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Error.ixx">
+    <ClCompile Include="clear.ixx">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ChessType.ixx">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ChessPos.ixx">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Version.ixx">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,6 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\README-CN.md">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\CHANGELOG.md">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\CHANGELOG-CN.md">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
