@@ -8,12 +8,35 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+export module ChessPiece;
 import std;
 import ChessPos;
-import "json.hpp";
+import ChessType;
 using namespace Chess;
 
-int main() {
-	
-	return 0;
+export namespace Chess::Piece {
+	enum class Color {
+		White,
+		Black
+	};
+	enum class Type {
+		Pawn,
+		Rook,
+		Knight,
+		Bishop,
+		Queen,
+		King
+	};
+
+	template<Color C, Type T>
+	class ChessPieceBase {
+	public:
+		ChessPieceBase() = default;
+		ChessPieceBase(const Pos::ChessPos& pos) : m_pos{ pos }{}
+
+	private:
+		Color m_color = C;
+		Type m_type = T;
+		Pos::ChessPos m_pos;
+	};
 }

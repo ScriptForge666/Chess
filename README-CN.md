@@ -10,4 +10,10 @@
 </center>
 
 ## 警告
+
 这个项目仍处于早期开发阶段，可能存在许多错误。请谨慎使用。
+
+## 许可证
+
+这个项目使用 Apache License Version 2.0 许可证。详情请参阅 [LICENSE](LICENSE.txt) 文件。
+我们还使用了一些第三方库，这些库列在 [LICENSE-THIRD-PARTY](LICENSE-THIRD-PARTY.txt) 文件中。请在使用这个项目之前检查这些库的许可证。

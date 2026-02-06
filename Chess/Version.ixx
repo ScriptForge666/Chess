@@ -9,6 +9,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 export module Version;
+import std;
 import Scriptforge.Version;
 
 namespace Version{

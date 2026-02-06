@@ -70,6 +70,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>x64Release</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -78,7 +81,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
-      <AdditionalIncludeDirectories>..\dependency</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\dependency</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies>..\dependency\Scriptforge.AntiDebug.ixx.ifc;..\dependency\Scriptforge.BitPack.ixx.ifc;..\dependency\Scriptforge.Err.ixx.ifc;..\dependency\Scriptforge.ixx.ifc;..\dependency\Scriptforge.Log.ixx.ifc;..\dependency\Scriptforge.Tree.ixx.ifc;..\dependency\Scriptforge.Version.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
@@ -99,7 +102,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
-      <AdditionalIncludeDirectories>..\dependency</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\dependency</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies>..\dependency\Scriptforge.AntiDebug.ixx.ifc;..\dependency\Scriptforge.BitPack.ixx.ifc;..\dependency\Scriptforge.Err.ixx.ifc;..\dependency\Scriptforge.ixx.ifc;..\dependency\Scriptforge.Log.ixx.ifc;..\dependency\Scriptforge.Tree.ixx.ifc;..\dependency\Scriptforge.Version.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
@@ -118,7 +121,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
-      <AdditionalIncludeDirectories>..\dependency</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\dependency</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies>..\dependency\Scriptforge.AntiDebug.ixx.ifc;..\dependency\Scriptforge.BitPack.ixx.ifc;..\dependency\Scriptforge.Err.ixx.ifc;..\dependency\Scriptforge.ixx.ifc;..\dependency\Scriptforge.Log.ixx.ifc;..\dependency\Scriptforge.Tree.ixx.ifc;..\dependency\Scriptforge.Version.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
@@ -139,7 +142,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
-      <AdditionalIncludeDirectories>..\dependency</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\dependency</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies>..\dependency\Scriptforge.AntiDebug.ixx.ifc;..\dependency\Scriptforge.BitPack.ixx.ifc;..\dependency\Scriptforge.Err.ixx.ifc;..\dependency\Scriptforge.ixx.ifc;..\dependency\Scriptforge.Log.ixx.ifc;..\dependency\Scriptforge.Tree.ixx.ifc;..\dependency\Scriptforge.Version.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
@@ -151,14 +154,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChessPiece.ixx" />
     <ClCompile Include="ChessPos.ixx" />
     <ClCompile Include="ChessType.ixx" />
     <ClCompile Include="clear.ixx" />
     <ClCompile Include="Error.ixx" />
+    <ClCompile Include="Local.ixx" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Version.ixx" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="..\LICENSE-THIRD-PARTY.txt" />
     <Text Include="..\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +172,9 @@
     <None Include="..\README.md" />
     <None Include="..\CHANGELOG-CN.md" />
     <None Include="..\CHANGELOG.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\dependency\json.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
