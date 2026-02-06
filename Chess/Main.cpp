@@ -8,12 +8,28 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 import std;
 import ChessPos;
+import Local;
+import Scriptforge.Err;
+namespace sf = Scriptforge;
 import "json.hpp";
 using namespace Chess;
 
 int main() {
-	
-	return 0;
+        try {
+            Local::Lang chineseLang(std::locale("zh-CN"));
+            std::cout << "中文语言: " << chineseLang.getLanguageName() << std::endl;
+            std::cout << "欢迎语: " << chineseLang.get("welcome") << std::endl;
+
+            Local::Lang englishLang(std::locale("en-US"));
+            std::cout << "英文语言: " << englishLang.getLanguageName() << std::endl;
+
+        }
+        catch (const sf::Error& e) {
+            std::cerr << "错误: " << e.what() << std::endl;
+        }
+
+        return 0;
 }
