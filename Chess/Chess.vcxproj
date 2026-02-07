@@ -173,6 +173,8 @@
     <None Include="..\README.md" />
     <None Include="..\CHANGELOG-CN.md" />
     <None Include="..\CHANGELOG.md" />
+    <None Include="lang\en-US.json" />
+    <None Include="lang\zh-CN.json" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dependency\json.hpp" />

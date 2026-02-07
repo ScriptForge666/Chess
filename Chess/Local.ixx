@@ -6,27 +6,38 @@ import Error;
 import "json.hpp";
 
 namespace sf = Scriptforge;
+namespace fs = std::filesystem;
+using json = nlohmann::json;
 
 namespace Local {
-    using json = nlohmann::json;
+    
 
     export class Lang {
     public:
         // 构造函数
-        Lang(std::locale loc = std::locale{}) : m_loc{ loc } {
-            loadLanguageFile();
+        Lang(std::locale loc = std::locale{}, fs::path path = { "lang/" }) : m_loc{ loc }, m_lang_path{ path } {
+            loadLanguageFile(path);
         }
         // 重新加载语言文件
         void reload() {
-            loadLanguageFile();
+            loadLanguageFile(m_lang_path);
         }
         // 切换到另一个语言
         void setLocale(const std::locale& loc) {
             m_loc = loc;
-            loadLanguageFile();
+            loadLanguageFile(m_lang_path);
         }
         // 获取当前语言环境
         std::locale getLocale() const { return m_loc; }
+
+        //获取语言目录
+		fs::path getLangPath() const { return m_lang_path; }
+
+		// 设置语言目录
+        void setLangPath(const fs::path& path) {
+            m_lang_path = path;
+            loadLanguageFile(path);
+        }
 
         // 获取语言名称（用于显示）
         std::string getLanguageName() const {
@@ -86,8 +97,8 @@ namespace Local {
         }
 
     private:
-        void loadLanguageFile() {
-            std::string filename = "lang/" + m_loc.name() + ".json";
+        void loadLanguageFile(fs::path path) {
+            fs::path filename = m_lang_path / (m_loc.name() + ".json");
             std::ifstream jsoninput{ filename };
 
             if (!jsoninput.is_open()) {
@@ -115,6 +126,7 @@ namespace Local {
                 return "cannot find lang/" + loc.name() + ".json";
         }
         std::locale m_loc;
+		fs::path m_lang_path;
         json j;
     };
 }

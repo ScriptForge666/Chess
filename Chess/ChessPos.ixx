@@ -11,6 +11,7 @@
 export module ChessPos;
 import std;
 import Error;
+import Local;
 import Scriptforge;
 namespace sf = Scriptforge;
 
@@ -20,7 +21,11 @@ export namespace Chess::Pos {
     class ChessCoordBase {
     public:
         ChessCoordBase() = delete;
-        ChessCoordBase(int value) { write(value); }
+        ChessCoordBase(int value, Local::Lang lang):
+            m_lang{lang} {
+			isLegal(value);
+            write(value);
+        }
 
         int toInt() const { return read(); }
         operator int() const { return toInt(); }
@@ -32,12 +37,12 @@ export namespace Chess::Pos {
 
         Derived operator+(int other) const {
             isLegal(read() + other);
-            return Derived{ read() + other };
+            return Derived{ read() + other, m_lang };
         }
 
         Derived operator-(int other) const {
             isLegal(read() - other);
-            return Derived{ read() - other };
+            return Derived{ read() - other, m_lang };
         }
 
         Derived& operator++() {
@@ -81,10 +86,11 @@ export namespace Chess::Pos {
 
     protected:
         std::byte m_value;
+		Local::Lang m_lang;
 
         void isLegal(int value) const {
             if (value < 1 || value > 8) {
-                throw sf::Error(Error::to_string(Error::Code::InternalError), "ChessY value out of range.");
+                throw sf::Error(Error::to_string(Error::Code::InternalError), m_lang.get("ChessCoordBase_value_out_of_range"));
             }
         }
         void write(int value) {
@@ -97,7 +103,8 @@ export namespace Chess::Pos {
 
     class ChessX : public ChessCoordBase<ChessX> {
     public:
-        ChessX(int value) : ChessCoordBase(value) {}
+        ChessX(int value, Local::Lang lang) : ChessCoordBase(value, lang) {}
+        using ChessCoordBase<ChessX>::operator=;
         char toChar() const override {
             return static_cast<char>('a' + read() - 1);
         }
@@ -105,14 +112,15 @@ export namespace Chess::Pos {
 
     class ChessY : public ChessCoordBase<ChessY> {
     public:
-        ChessY(int value) : ChessCoordBase(value) {}
+        ChessY(int value, Local::Lang lang) : ChessCoordBase(value, lang) {}
+        using ChessCoordBase<ChessY>::operator=;
     };
 
     class ChessPos {
     public:
         ChessPos() = delete;
-        ChessPos(int x, int y) : m_x{ x }, m_y{ y } {}
-        ChessPos(char x, int y) : m_x{ x - 'a' + 1 }, m_y{ y } {}
+        ChessPos(int x, int y, Local::Lang lang) : m_x{ x, lang }, m_y{ y, lang } {}
+        ChessPos(char x, int y, Local::Lang lang) : m_x{ x - 'a' + 1, lang }, m_y{ y, lang } {}
 
         // 明确区分不同的获取方式
         ChessX xObject() const { return m_x; }

@@ -1,5 +1,4 @@
 {
-    "language_name": "简体中文",
-    "welcome": "欢迎使用",
-    "error": "错误"
+    "language_name" : "简体中文",
+    "ChessCoordBase_value_out_of_range" : "棋盘坐标值超出范围"
 }

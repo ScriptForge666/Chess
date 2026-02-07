@@ -64,6 +64,12 @@
     <None Include="..\.github\workflows\build.yml">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="lang\en-US.json">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="lang\zh-CN.json">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dependency\json.hpp">

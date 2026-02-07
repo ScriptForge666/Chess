@@ -21,11 +21,11 @@ int main() {
         try {
             Local::Lang chineseLang(std::locale("zh-CN"));
             std::cout << "中文语言: " << chineseLang.getLanguageName() << std::endl;
-            std::cout << "欢迎语: " << chineseLang.get("welcome") << std::endl;
+            Pos::ChessPos pos1{ 'a',1,chineseLang };
 
             Local::Lang englishLang(std::locale("en-US"));
             std::cout << "英文语言: " << englishLang.getLanguageName() << std::endl;
-
+            Pos::ChessPos pos2{ 'j',1,englishLang };
         }
         catch (const sf::Error& e) {
             std::cerr << "错误: " << e.what() << std::endl;
