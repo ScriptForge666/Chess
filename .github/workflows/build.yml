@@ -19,7 +19,7 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
         with:
-          vs-version: 'latest'  # Visual Studio 2022
+          vs-version: '18.0'  # Visual Studio 2022
         
       - name: Restore NuGet packages
         run: nuget restore Chess.slnx
@@ -31,9 +31,10 @@ jobs:
           msbuild Chess/Chess.vcxproj `
           /p:Configuration=Release `
           /p:Platform=x64 `
-          /p:OutputPath=x64\Release `
-          /p:PlatformToolset=v143 `
+          /p:OutputPath=x64\Release\ `
+          /p:PlatformToolset=v145 `
           /verbosity:minimal
+          /std:c++latest
         # 如果您的项目文件路径不同，请相应调整
         
       - name: Verify build output
