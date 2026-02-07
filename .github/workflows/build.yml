@@ -1,0 +1,64 @@
+name: Build Chess Application
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build:
+    runs-on: windows-latest
+    name: Build Chess x64 Release
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+        with:
+          vs-version: 'latest'  # Visual Studio 2022
+        
+      - name: Restore NuGet packages
+        run: nuget restore Chess.slnx
+        # 如果您的解决方案文件名不是 Chess.slnx，请修改为实际文件名
+        # run: nuget restore YourSolutionName.sln
+        
+      - name: Build Chess project
+        run: |
+          msbuild Chess/Chess.vcxproj `
+          /p:Configuration=Release `
+          /p:Platform=x64 `
+          /p:OutputPath=x64\Release `
+          /p:PlatformToolset=v143 `
+          /verbosity:minimal
+        # 如果您的项目文件路径不同，请相应调整
+        
+      - name: Verify build output
+        run: |
+          if (Test-Path "Chess/x64/Release/Chess.exe") {
+            Write-Host "✅ Chess.exe built successfully"
+            Get-Item "Chess/x64/Release/Chess.exe" | Select-Object Name, Length, LastWriteTime
+          } else {
+            Write-Host "❌ Chess.exe not found"
+            Get-ChildItem -Recurse -Filter *.exe | Format-Table FullName
+            exit 1
+          }
+          
+          if (Test-Path "Chess/x64/Release/lang/") {
+            Write-Host "✅ Language files directory exists"
+            Get-ChildItem "Chess/x64/Release/lang/" -Filter *.json | Measure-Object | ForEach-Object { Write-Host "Found $($_.Count) JSON files" }
+          }
+        
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: chess-application
+          path: |
+            Chess/x64/Release/Chess.exe
+            Chess/x64/Release/lang/**
+            Chess/x64/Release/*.dll  # 如果有依赖的DLL文件
+            Chess/x64/Release/*.pdb  # 调试符号文件
+          retention-days: 30
