@@ -18,4 +18,4 @@ Note:[Local.ixx](Chess/Local.ixx) will soon be added in [my library project](htt
 ## License
 
 This project is licensed under the Apache License Version 2.0. See the [LICENSE](LICENSE.txt) file for details.
-We also use some third-party libraries, which are listed in the [LICENSE-THIRD-PARTY](LICENSE-THIRD-PARTY.txt) file. Please check the licenses of those libraries before using this project.
+We also use some third-party libraries(and our own open-source library Scriptforge), which are listed in the [LICENSE-THIRD-PARTY](LICENSE-THIRD-PARTY.txt) file. Please check the licenses of those libraries before using this project.
