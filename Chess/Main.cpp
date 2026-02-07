@@ -8,9 +8,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import std;
 import ChessPos;
+import ChessPiece;
 import Local;
 import Scriptforge.Err;
 namespace sf = Scriptforge;
@@ -18,14 +18,18 @@ import "json.hpp";
 using namespace Chess;
 
 int main() {
-        try {
-            Local::Lang chineseLang(std::locale("zh-CN"));
-            std::cout << "中文语言: " << chineseLang.getLanguageName() << std::endl;
-            Pos::ChessPos pos1{ 'a',1,chineseLang };
+    Local::Lang chineseLang(std::locale("zh-CN"));
+    std::cout << "中文语言: " << chineseLang.getLanguageName() << std::endl;
+    Pos::ChessPos pos1{ 'a',1,chineseLang };
 
-            Local::Lang englishLang(std::locale("en-US"));
-            std::cout << "英文语言: " << englishLang.getLanguageName() << std::endl;
-            Pos::ChessPos pos2{ 'j',1,englishLang };
+    Local::Lang englishLang(std::locale("en-US"));
+    std::cout << "英文语言: " << englishLang.getLanguageName() << std::endl;
+    Pos::ChessPos pos2{ 'a',1,englishLang };
+    Piece::ChessPiece<Piece::Color::White, Piece::Type::Knight, true> WKnight{ pos1 };
+    std::cout << "白色骑士: " << WKnight <<std::endl;
+        try {
+            
+			
         }
         catch (const sf::Error& e) {
             std::cerr << "错误: " << e.what() << std::endl;

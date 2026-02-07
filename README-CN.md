@@ -13,6 +13,8 @@
 
 这个项目仍处于早期开发阶段，可能存在许多错误。请谨慎使用。
 
+项目“Test”有一些错误， 我已经报告给微软。
+
 注意：[Local.ixx](Chess/Local.ixx) 将很快添加到 [我的库项目](https://github.com/ScriptForge666/Scriptforge).
 ## 许可证
 

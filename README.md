@@ -13,6 +13,8 @@
 
 This project is still in early development, and there may be many bugs. Please use it with caution.
 
+The project "Test" has some Error ,I has been report it to Microsoft.
+
 Note:[Local.ixx](Chess/Local.ixx) will soon be added in [my library project](https://github.com/ScriptForge666/Scriptforge).
 
 ## License
