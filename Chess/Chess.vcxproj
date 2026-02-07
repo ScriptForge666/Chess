@@ -168,6 +168,7 @@
     <Text Include="..\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.github\workflows\build.yml" />
     <None Include="..\README-CN.md" />
     <None Include="..\README.md" />
     <None Include="..\CHANGELOG-CN.md" />

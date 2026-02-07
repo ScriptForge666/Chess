@@ -61,6 +61,9 @@
     <None Include="..\CHANGELOG-CN.md">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="..\.github\workflows\build.yml">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dependency\json.hpp">
