@@ -7,24 +7,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Locate VS 2026 Installation
-        id: vs2026
-        run: |
-          # 查找 VS 2026 安装路径（镜像中为 18 版本）
-          $vsPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" `
-            -version "[18.0,19.0)" `
-            -products * `
-            -latest `
-            -property installationPath
-          echo "VS2026_PATH=$vsPath" >> $env:GITHUB_OUTPUT
-          # 验证 VC 工具集路径（确认 v143/v1450 存在）
-          Get-ChildItem "$vsPath\MSBuild\Microsoft\VC\v170\Platforms\x64\PlatformToolsets\"
-
+        
       - name: Setup MSBuild from VS 2026
         run: |
           # 配置 MSBuild 为 VS 2026 版本（避免调用 VS 2022）
-          $msbuildPath = Join-Path -Path ${{ steps.vs2026.outputs.VS2026_PATH }} -ChildPath "MSBuild\Current\Bin\MSBuild.exe"
+          $msbuildPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
           echo "MSBuildPath=$msbuildPath" >> $env:GITHUB_ENV
           # 将 VS 2026 工具集路径加入环境变量
           echo "${{ steps.vs2026.outputs.VS2026_PATH }}\MSBuild\Current\Bin" >> $env:GITHUB_PATH
