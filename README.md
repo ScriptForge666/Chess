@@ -13,6 +13,8 @@
 
 This project is still in early development, and there may be many bugs. Please use it with caution.
 
+Note:[Local.ixx](Chess/Local.ixx) will soon be added in [my library project](https://github.com/ScriptForge666/Scriptforge).
+
 ## License
 
 This project is licensed under the Apache License Version 2.0. See the [LICENSE](LICENSE.txt) file for details.
