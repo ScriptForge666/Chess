@@ -1,45 +1,47 @@
-name: Build Chess Project
+name: Build Chess Project (Fixed)
 on: [push, pull_request]
 
 jobs:
   build-windows:
-    runs-on: windows-2025  # 对应镜像版本 20260203.4.1
+    runs-on: windows-2025
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup MSBuild Path
-        uses: microsoft/setup-msbuild@v2
-        with:
-          msbuild-architecture: x64
-          # 复用镜像内置的 VS 2026，无需指定版本
-
-      - name: Verify VS/VC Environment
+      - name: Locate VS 2026 Installation
+        id: vs2026
         run: |
-          # 验证镜像内置的 VC 工具集和 Windows SDK
-          vswhere -products * -latest -property installationPath
-          Get-ChildItem "C:\Program Files\Microsoft Visual Studio\18\Enterprise\MSBuild\Microsoft\VC\v170\Platforms\x64\PlatformToolsets\"
-          echo "Windows SDK Version: $env:WINDOWSSDKDIR"
+          # 查找 VS 2026 安装路径（镜像中为 18 版本）
+          $vsPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" `
+            -version "[18.0,19.0)" `
+            -products * `
+            -latest `
+            -property installationPath
+          echo "VS2026_PATH=$vsPath" >> $env:GITHUB_OUTPUT
+          # 验证 VC 工具集路径（确认 v143/v1450 存在）
+          Get-ChildItem "$vsPath\MSBuild\Microsoft\VC\v170\Platforms\x64\PlatformToolsets\"
 
-      - name: Build Chess.vcxproj (覆盖工具集版本)
+      - name: Setup MSBuild from VS 2026
         run: |
-          # 核心：指定 v143（镜像内置）替代 v145，同时指定镜像预装的 Windows SDK 10.0.26100.0
-          msbuild Chess/Chess.vcxproj `
+          # 配置 MSBuild 为 VS 2026 版本（避免调用 VS 2022）
+          $msbuildPath = Join-Path -Path ${{ steps.vs2026.outputs.VS2026_PATH }} -ChildPath "MSBuild\Current\Bin\MSBuild.exe"
+          echo "MSBuildPath=$msbuildPath" >> $env:GITHUB_ENV
+          # 将 VS 2026 工具集路径加入环境变量
+          echo "${{ steps.vs2026.outputs.VS2026_PATH }}\MSBuild\Current\Bin" >> $env:GITHUB_PATH
+
+      - name: Build with Forced PlatformToolset (v143)
+        run: |
+          # 核心：强制指定 VS 2026 内置的 v143 工具集 + 镜像预装的 Windows SDK 10.0.26100.0
+          & $env:MSBuildPath `
+            Chess/Chess.vcxproj `
             /p:PlatformToolset=v143 `
             /p:WindowsTargetPlatformVersion=10.0.26100.0 `
             /p:Configuration=Release `
             /p:Platform=x64 `
+            /p:VCToolsVersion=14.50.35719 ` # 镜像预装的 VC++ 2022 版本
             /m /fl /flp:LogFile=build.log;Verbosity=detailed
 
-      - name: (可选) 自动重定向项目到当前 VS 版本
-        if: failure()  # 若上面编译失败，尝试自动重定向
-        run: |
-          # 重定向解决方案到 VS 2026 兼容版本
-          msbuild Chess/Chess.vcxproj /t:RetargetSolution /p:TargetPlatformVersion=10.0.26100.0
-          # 重新编译
-          msbuild Chess/Chess.vcxproj /p:Configuration=Release /p:Platform=x64 /m
-
-      - name: Upload Build Log (失败时)
+      - name: Upload Build Log (on failure)
         if: failure()
         uses: actions/upload-artifact@v4
         with:
