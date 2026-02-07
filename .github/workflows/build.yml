@@ -21,7 +21,7 @@ jobs:
           # 核心：强制指定 VS 2026 内置的 v143 工具集 + 镜像预装的 Windows SDK 10.0.26100.0
           & $env:MSBuildPath `
             Chess/Chess.vcxproj `
-            /p:PlatformToolset=v143 `
+            /p:PlatformToolset=v145 `
             /p:WindowsTargetPlatformVersion=10.0.26100.0 `
             /p:Configuration=Release `
             /p:Platform=x64 `
