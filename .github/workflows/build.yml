@@ -1,62 +1,47 @@
-name: Build Chess Application
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  workflow_dispatch:  # 允许手动触发
+name: Build Chess Project
+on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: windows-2025
-    name: Build Chess x64 Release
-    
+  build-windows:
+    runs-on: windows-2025  # 对应镜像版本 20260203.4.1
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
-        
-      - name: Setup MSBuild
+
+      - name: Setup MSBuild Path
         uses: microsoft/setup-msbuild@v2
-        
-      - name: Restore NuGet packages
-        run: nuget restore Chess.slnx
-        # 如果您的解决方案文件名不是 Chess.slnx，请修改为实际文件名
-        # run: nuget restore YourSolutionName.sln
-        
-      - name: Build Chess project
+        with:
+          msbuild-architecture: x64
+          # 复用镜像内置的 VS 2026，无需指定版本
+
+      - name: Verify VS/VC Environment
         run: |
+          # 验证镜像内置的 VC 工具集和 Windows SDK
+          vswhere -products * -latest -property installationPath
+          Get-ChildItem "C:\Program Files\Microsoft Visual Studio\18\Enterprise\MSBuild\Microsoft\VC\v170\Platforms\x64\PlatformToolsets\"
+          echo "Windows SDK Version: $env:WINDOWSSDKDIR"
+
+      - name: Build Chess.vcxproj (覆盖工具集版本)
+        run: |
+          # 核心：指定 v143（镜像内置）替代 v145，同时指定镜像预装的 Windows SDK 10.0.26100.0
           msbuild Chess/Chess.vcxproj `
-          /p:Configuration=Release `
-          /p:Platform=x64 `
-          /p:OutputPath=x64\Release\ `
-          /p:PlatformToolset=v145 `
-          /verbosity:minimal
-        # 如果您的项目文件路径不同，请相应调整
-        
-      - name: Verify build output
+            /p:PlatformToolset=v143 `
+            /p:WindowsTargetPlatformVersion=10.0.26100.0 `
+            /p:Configuration=Release `
+            /p:Platform=x64 `
+            /m /fl /flp:LogFile=build.log;Verbosity=detailed
+
+      - name: (可选) 自动重定向项目到当前 VS 版本
+        if: failure()  # 若上面编译失败，尝试自动重定向
         run: |
-          if (Test-Path "Chess/x64/Release/Chess.exe") {
-            Write-Host "✅ Chess.exe built successfully"
-            Get-Item "Chess/x64/Release/Chess.exe" | Select-Object Name, Length, LastWriteTime
-          } else {
-            Write-Host "❌ Chess.exe not found"
-            Get-ChildItem -Recurse -Filter *.exe | Format-Table FullName
-            exit 1
-          }
-          
-          if (Test-Path "Chess/x64/Release/lang/") {
-            Write-Host "✅ Language files directory exists"
-            Get-ChildItem "Chess/x64/Release/lang/" -Filter *.json | Measure-Object | ForEach-Object { Write-Host "Found $($_.Count) JSON files" }
-          }
-        
-      - name: Upload build artifacts
+          # 重定向解决方案到 VS 2026 兼容版本
+          msbuild Chess/Chess.vcxproj /t:RetargetSolution /p:TargetPlatformVersion=10.0.26100.0
+          # 重新编译
+          msbuild Chess/Chess.vcxproj /p:Configuration=Release /p:Platform=x64 /m
+
+      - name: Upload Build Log (失败时)
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: chess-application
-          path: |
-            Chess/x64/Release/Chess.exe
-            Chess/x64/Release/lang/**
-            Chess/x64/Release/*.dll  # 如果有依赖的DLL文件
-            Chess/x64/Release/*.pdb  # 调试符号文件
-          retention-days: 30
+          name: build-logs
+          path: build.log
