@@ -177,7 +177,9 @@
     <None Include="lang\zh-CN.json" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\dependency\json.hpp" />
+    <ClCompile Include="..\dependency\json.hpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsHeaderUnit</CompileAs>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

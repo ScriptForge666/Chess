@@ -18,22 +18,21 @@ import "json.hpp";
 using namespace Chess;
 
 int main() {
-    Local::Lang chineseLang(std::locale("zh-CN"));
-    std::cout << "中文语言: " << chineseLang.getLanguageName() << std::endl;
-    Pos::ChessPos pos1{ 'a',1,chineseLang };
-
-    Local::Lang englishLang(std::locale("en-US"));
-    std::cout << "英文语言: " << englishLang.getLanguageName() << std::endl;
-    Pos::ChessPos pos2{ 'a',1,englishLang };
-    Piece::ChessPiece<Piece::Color::White, Piece::Type::Knight, true> WKnight{ pos1 };
-    std::cout << "白色骑士: " << WKnight <<std::endl;
         try {
-            
-			
+            Local::Lang chineseLang(std::locale("zh-CN"));
+            std::cout << "中文语言: " << chineseLang.getLanguageName() << std::endl;
+            Pos::ChessPos pos1{ 'a',1,chineseLang };
+
+            Local::Lang englishLang(std::locale("en-US"));
+            std::cout << "英文语言: " << englishLang.getLanguageName() << std::endl;
+            Pos::ChessPos pos2{ 'a',1,englishLang };
+            Piece::ChessPiece<Piece::Color::White, Piece::Type::Knight, true> WKnight{ pos1 };
+            std::cout << "白色骑士: " << WKnight << std::endl;
         }
         catch (const sf::Error& e) {
             std::cerr << "错误: " << e.what() << std::endl;
         }
-
+        int i;
+        std::cin >> i;
         return 0;
 }

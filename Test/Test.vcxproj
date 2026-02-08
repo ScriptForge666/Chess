@@ -102,7 +102,7 @@
       <BuildStlModules>true</BuildStlModules>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <AdditionalModuleDependencies>..\Chess\x64\Release\ChessPiece.ixx.ifc;..\Chess\x64\Release\ChessPos.ixx.ifc;..\Chess\x64\Release\ChessType.ixx.ifc;..\Chess\x64\Release\clear.ixx.ifc;..\Chess\x64\Release\Error.ixx.ifc;..\Chess\x64\Release\Local.ixx.ifc;..\Chess\x64\Release\Version.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
-      <AdditionalHeaderUnitDependencies>%(AdditionalHeaderUnitDependencies)</AdditionalHeaderUnitDependencies>
+      <AdditionalHeaderUnitDependencies>..\dependency\json.hpp = ..\Chess\x64\Release\json.hpp.ifc;%(AdditionalHeaderUnitDependencies)</AdditionalHeaderUnitDependencies>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>

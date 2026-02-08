@@ -12,7 +12,6 @@ export module ChessPiece;
 import std;
 import ChessPos;
 import ChessType;
-using namespace Chess;
 using namespace Chess::Type;
 
 namespace Chess::Piece {
@@ -37,14 +36,14 @@ namespace Chess::Piece {
 		ChessPieceBase(const Pos::ChessPos& pos) : m_pos{ pos } {}
 		Color getColor() const { return m_color; }
 		Type getType() const { return m_type; }
-		Pos::ChessPos getPos() const { return m_pos; }
+		Chess::Pos::ChessPos getPos() const { return m_pos; }
 		bool getUnicode() const { return m_isUnicode; }
 		virtual void setPos(const Pos::ChessPos& pos) { m_pos = pos; }
 	protected:
 		Color m_color = C;
 		Type m_type = T;
 		bool m_isUnicode = isUnicode;
-		Pos::ChessPos m_pos;
+		Chess::Pos::ChessPos m_pos;
 	};
 	
 	export
