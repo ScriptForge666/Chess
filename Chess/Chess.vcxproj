@@ -122,14 +122,14 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
       <AdditionalIncludeDirectories>..\;..\dependency</AdditionalIncludeDirectories>
-      <AdditionalModuleDependencies>..\dependency\Scriptforge.AntiDebug.ixx.ifc;..\dependency\Scriptforge.BitPack.ixx.ifc;..\dependency\Scriptforge.Err.ixx.ifc;..\dependency\Scriptforge.ixx.ifc;..\dependency\Scriptforge.Log.ixx.ifc;..\dependency\Scriptforge.Tree.ixx.ifc;..\dependency\Scriptforge.Version.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+      <AdditionalModuleDependencies>..\dependency\Scriptforge.AntiDebugD.ixx.ifc;..\dependency\Scriptforge.BitPackD.ixx.ifc;..\dependency\Scriptforge.ErrD.ixx.ifc;..\dependency\ScriptforgeD.ixx.ifc;..\dependency\Scriptforge.LogD.ixx.ifc;..\dependency\Scriptforge.TreeD.ixx.ifc;..\dependency\Scriptforge.VersionD.ixx.ifc;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\dependency\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ScriptforgeLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ScriptforgeLibD.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChessBoard.ixx" />
     <ClCompile Include="ChessPiece.ixx" />
     <ClCompile Include="ChessPos.ixx" />
     <ClCompile Include="ChessType.ixx" />
@@ -168,7 +169,6 @@
     <Text Include="..\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\.github\workflows\build.yml" />
     <None Include="..\README-CN.md" />
     <None Include="..\README.md" />
     <None Include="..\CHANGELOG-CN.md" />

@@ -12,7 +12,7 @@ export module ChessType;
 import std;
 
 export namespace Chess::Type {
-    inline constexpr auto chessType = std::make_tuple(
+    const auto chessType = std::make_tuple(
         std::array<std::array<char, 6>, 2>{{
             {{'P', 'R', 'N', 'B', 'Q', 'K'}},
             { {'p', 'r', 'n', 'b', 'q', 'k'} }
@@ -25,4 +25,17 @@ export namespace Chess::Type {
                 "Pawn", "Rook", "Knight", "Bishop", "Queen", "King"
             }}
     );
+
+    export enum class Color {
+        White,
+        Black
+    };
+    export enum class Type {
+        Pawn,
+        Rook,
+        Knight,
+        Bishop,
+        Queen,
+        King
+    };
 }

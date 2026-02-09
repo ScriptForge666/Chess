@@ -12,47 +12,50 @@ export module ChessPiece;
 import std;
 import ChessPos;
 import ChessType;
+import Local;
 using namespace Chess::Type;
 
 namespace Chess::Piece {
-	export enum class Color {
-		White,
-		Black
-	};
-	export enum class Type {
-		Pawn,
-		Rook,
-		Knight,
-		Bishop,
-		Queen,
-		King
-	};
-
-	export
-		template<Color C, Type T, bool isUnicode>
-	class ChessPieceBase {
+	export class ChessPieceBase {
 	public:
-		ChessPieceBase() = default;
-		ChessPieceBase(const Pos::ChessPos& pos) : m_pos{ pos } {}
-		Color getColor() const { return m_color; }
-		Type getType() const { return m_type; }
+		ChessPieceBase() = delete;
+		ChessPieceBase(Chess::Type::Color color, Chess::Type::Type type, bool isUnicode = false) :
+			m_color{ color }, m_type{ type }, m_pos{ Chess::Pos::ChessPos{1,1, Local::Lang{}} } {
+		}
+		ChessPieceBase(Chess::Type::Color color, Chess::Type::Type type, Chess::Pos::ChessPos pos, bool isUnicode = false) :
+			m_color{ color }, m_type{ type }, m_pos{ pos }, m_isUnicode{ isUnicode } {
+		}
+		Chess::Type::Color getColor() const { return m_color; }
+		Chess::Type::Type getType() const { return m_type; }
 		Chess::Pos::ChessPos getPos() const { return m_pos; }
 		bool getUnicode() const { return m_isUnicode; }
-		virtual void setPos(const Pos::ChessPos& pos) { m_pos = pos; }
+		void setPos(const Pos::ChessPos& pos) {
+			if (pos.yInt() == 8 && m_color == Chess::Type::Color::White && m_type == Chess::Type::Type::Pawn) {
+					this->WhitePawnHasQueen = true;
+					this->m_type = Chess::Type::Type::Queen;
+			}
+			else if(pos.yInt() == 1 && m_color == Chess::Type::Color::Black && m_type == Chess::Type::Type::Pawn) {
+				this->BlackPawnHasQueen = true;
+				this->m_type = Chess::Type::Type::Queen;
+			}
+				this->m_pos = pos;
+		}
 	protected:
-		Color m_color = C;
-		Type m_type = T;
-		bool m_isUnicode = isUnicode;
+		Chess::Type::Color m_color;
+		Chess::Type::Type m_type;
 		Chess::Pos::ChessPos m_pos;
+		bool m_isUnicode;
+		bool m_iscaptured{ false };
+		inline static bool WhitePawnHasQueen{ false };
+		inline static bool BlackPawnHasQueen{ true };
 	};
 	
 	export
-		template<Color C,Type T,bool isUnicode>
-	class ChessPiece : public ChessPieceBase<C, T, isUnicode> {
+	class ChessPiece : public ChessPieceBase {
 	public:
 		ChessPiece() = default;
-		ChessPiece(const Pos::ChessPos& pos) : ChessPieceBase<C, T, isUnicode>{ pos } {}
-		friend std::ostream& operator<<(std::ostream& os, const ChessPiece<C, T, isUnicode>& piece) {
+		ChessPiece(Chess::Type::Color color, Chess::Type::Type type, Chess::Pos::ChessPos pos, bool isUnicode = false) : ChessPieceBase(color, type, pos, isUnicode) {}
+		friend std::ostream& operator<<(std::ostream& os, const ChessPiece& piece) {
 			int typeIndex = static_cast<int>(piece.getType());
 			int colorIndex = static_cast<int>(piece.getColor());
 
@@ -67,52 +70,6 @@ namespace Chess::Piece {
 			}
 
 			return os;
-		}
-	};
-
-	export
-		template<bool isUnicode>
-	class ChessPiece<Color::White, Type::Pawn, isUnicode> : public ChessPieceBase<Color::White, Type::Pawn, isUnicode> {
-	public:
-		ChessPiece() = default;
-		ChessPiece(const Pos::ChessPos& pos) : ChessPieceBase<Color::White, Type::Pawn, isUnicode>{ pos } {}
-		void setPos(const Pos::ChessPos& pos) override {
-			if (pos.yInt() == 8 && !hasQueen) {
-				hasQueen = true;
-				this->m_type = Type::Queen;
-			}
-			else {
-				this->m_pos = pos;
-			}
-		}
-		friend
-			std::ostream& operator<<(std::ostream& os, const ChessPiece<Color::White, Type::Pawn, isUnicode>& piece) {
-			return operator<<(os, piece);
-		}
-	private:
-		static bool hasQueen;
-	};
-
-	export 
-		template<bool isUnicode>
-	class ChessPiece<Color::Black, Type::Pawn, isUnicode> : public ChessPieceBase<Color::Black, Type::Pawn, isUnicode> {
-	public:
-		ChessPiece() = default;
-		ChessPiece(const Pos::ChessPos& pos) : ChessPieceBase<Color::Black, Type::Pawn, isUnicode>{ pos } {}
-		void setPos(const Pos::ChessPos& pos) override {
-			if (pos.yInt() == 1 && !hasQueen) {
-				hasQueen = true;
-				this->m_type = Type::Queen;
-			}
-			else {
-				this->m_pos = pos;
-			}
-		}
-		friend
-			std::ostream& operator<<(std::ostream& os, const ChessPiece<Color::White, Type::Pawn, isUnicode>& piece) {
-			return operator<<(os, piece);
-		}
-	private:
-		static bool hasQueen;
+		}		
 	};
 }

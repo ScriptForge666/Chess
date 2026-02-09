@@ -121,6 +121,7 @@ export namespace Chess::Pos {
         ChessPos() = delete;
         ChessPos(int x, int y, Local::Lang lang) : m_x{ x, lang }, m_y{ y, lang } {}
         ChessPos(char x, int y, Local::Lang lang) : m_x{ x - 'a' + 1, lang }, m_y{ y, lang } {}
+        ChessPos(ChessX x, ChessY y) : m_x{ x }, m_y{ y } {}
 
         // 明确区分不同的获取方式
         ChessX xObject() const { return m_x; }

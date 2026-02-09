@@ -1,9 +1,12 @@
+module;
+#pragma once
+#include "json.hpp"
 export module Local;
 
 import std;
 import Scriptforge.Err;
 import Error;
-import "json.hpp";
+
 
 namespace sf = Scriptforge;
 namespace fs = std::filesystem;

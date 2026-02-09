@@ -8,13 +8,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+#include "json.hpp"
 import std;
 import ChessPos;
 import ChessPiece;
 import Local;
 import Scriptforge.Err;
 namespace sf = Scriptforge;
-import "json.hpp";
 using namespace Chess;
 
 int main() {
@@ -26,13 +26,11 @@ int main() {
             Local::Lang englishLang(std::locale("en-US"));
             std::cout << "英文语言: " << englishLang.getLanguageName() << std::endl;
             Pos::ChessPos pos2{ 'a',1,englishLang };
-            Piece::ChessPiece<Piece::Color::White, Piece::Type::Knight, true> WKnight{ pos1 };
+            Piece::ChessPiece WKnight{ Type::Color::White, Type::Type::Knight, pos1, true};
             std::cout << "白色骑士: " << WKnight << std::endl;
         }
         catch (const sf::Error& e) {
             std::cerr << "错误: " << e.what() << std::endl;
         }
-        int i;
-        std::cin >> i;
         return 0;
 }

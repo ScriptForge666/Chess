@@ -42,6 +42,9 @@
     <ClCompile Include="..\dependency\json.hpp">
       <Filter>头文件</Filter>
     </ClCompile>
+    <ClCompile Include="ChessBoard.ixx">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\LICENSE.txt">
@@ -62,9 +65,6 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="..\CHANGELOG-CN.md">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="..\.github\workflows\build.yml">
       <Filter>资源文件</Filter>
     </None>
     <None Include="lang\en-US.json">
